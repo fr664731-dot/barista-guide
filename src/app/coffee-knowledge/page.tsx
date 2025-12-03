@@ -177,6 +177,100 @@ export default function CoffeeKnowledgePage() {
           </div>
         </div>
 
+        {/* 6. 에스프레소 이론 */}
+        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
+          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
+            <Coffee className="w-6 h-6 text-amber-600" />
+            6. 에스프레소 이론
+            <span className="text-sm font-normal text-red-600 bg-red-100 px-2 py-1 rounded-full ml-2">실기 필수!</span>
+          </h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-amber-50 rounded-xl p-5">
+              <h3 className="font-bold text-amber-900 mb-2">에스프레소 (Espresso)</h3>
+              <p className="text-sm text-gray-700">고압(9bar)으로 25-30초에 추출한 진한 커피. 이탈리아어로 빠른이라는 뜻.</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-5">
+              <h3 className="font-bold text-amber-900 mb-2">크레마 (Crema)</h3>
+              <p className="text-sm text-gray-700">에스프레소 위 황금빛 거품층. 신선한 원두와 올바른 추출의 지표.</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-5">
+              <h3 className="font-bold text-amber-900 mb-2">탬핑 (Tamping)</h3>
+              <p className="text-sm text-gray-700">원두를 탬퍼로 눌러 다지는 과정. 15-20kg 압력으로 수평하게.</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-5">
+              <h3 className="font-bold text-amber-900 mb-2">도징 (Dosing)</h3>
+              <p className="text-sm text-gray-700">포터필터에 원두를 담는 것. 싱글샷 7-9g, 더블샷 14-18g.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 7. 우유 스티밍 */}
+        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
+          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
+            <Droplets className="w-6 h-6 text-amber-600" />
+            7. 우유 스티밍 5단계
+          </h2>
+          <div className="space-y-4">
+            <div className="flex gap-4 items-start">
+              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
+              <div><strong>차가운 우유 준비</strong> - 피처의 1/3~1/2 채우기</div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div>
+              <div><strong>에어 주입 (스트레칭)</strong> - 치치치 소리와 함께 공기 주입</div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div>
+              <div><strong>회전 (롤링)</strong> - 스팀 완드를 깊이 넣어 우유 회전</div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">4</div>
+              <div><strong>온도 확인</strong> - 60-65°C (손으로 3초 이상 못 잡을 정도)</div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">5</div>
+              <div><strong>마무리</strong> - 탁탁 쳐서 큰 거품 제거, 돌려서 광택 만들기</div>
+            </div>
+          </div>
+        </div>
+
+        {/* 8. 기본 커피 메뉴 */}
+        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
+          <h2 className="text-2xl font-bold text-amber-900 mb-6">8. 기본 커피 메뉴</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="bg-amber-50 rounded-xl p-4 text-center">
+              <div className="w-12 h-12 bg-amber-900 rounded-full mx-auto mb-3"></div>
+              <h3 className="font-bold text-amber-900">에스프레소</h3>
+              <p className="text-sm text-gray-600">에스프레소 30ml</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-4 text-center">
+              <div className="w-12 h-12 bg-amber-700 rounded-full mx-auto mb-3"></div>
+              <h3 className="font-bold text-amber-900">아메리카노</h3>
+              <p className="text-sm text-gray-600">에스프레소 + 물</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-4 text-center">
+              <div className="w-12 h-12 bg-amber-600 rounded-full mx-auto mb-3"></div>
+              <h3 className="font-bold text-amber-900">카푸치노</h3>
+              <p className="text-sm text-gray-600">에스프레소:우유:거품 1:1:1</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-4 text-center">
+              <div className="w-12 h-12 bg-amber-500 rounded-full mx-auto mb-3"></div>
+              <h3 className="font-bold text-amber-900">카페라떼</h3>
+              <p className="text-sm text-gray-600">에스프레소:우유 1:3~4</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-4 text-center">
+              <div className="w-12 h-12 bg-amber-800 rounded-full mx-auto mb-3"></div>
+              <h3 className="font-bold text-amber-900">카페모카</h3>
+              <p className="text-sm text-gray-600">에스프레소 + 초콜릿 + 우유</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-4 text-center">
+              <div className="w-12 h-12 bg-amber-950 rounded-full mx-auto mb-3"></div>
+              <h3 className="font-bold text-amber-900">마키아토</h3>
+              <p className="text-sm text-gray-600">에스프레소 + 소량 우유거품</p>
+            </div>
+          </div>
+        </div>
+
         {/* 시험 필수 숫자 */}
         <div className="bg-amber-900 text-white rounded-2xl p-8">
           <h2 className="text-2xl font-bold mb-6 text-center">시험에 나오는 숫자들</h2>
