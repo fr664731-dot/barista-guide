@@ -1,278 +1,63 @@
 "use client";
 
-import { Bean, Flame, Coffee, Droplets, Thermometer, Clock, AlertCircle, Package, Settings, XCircle } from "lucide-react";
+import { useState } from "react";
+import { Bean, Flame, Coffee, Droplets, Settings, Package } from "lucide-react";
 
 export default function CoffeeKnowledgePage() {
-  const processMethods = [
-    { name: "내추럴 (Natural)", process: "체리를 껍질째 건조 후 탈곡", taste: "농후한 단맛, 와인/과일 향, 무거운 바디", tip: "가장 오래된 방식, 발효취 특징", color: "bg-red-100 border-red-300" },
-    { name: "워시드 (Washed)", process: "과육 제거 후 점액질을 물로 씻어 건조", taste: "깨끗한 산미, 가벼운 바디, 투명한 향미", tip: "가장 보편적인 고급 가공법", color: "bg-blue-100 border-blue-300" },
-    { name: "허니 (Honey)", process: "과육 제거 후 점액질 일부 남긴 채 건조", taste: "산미와 단맛의 균형, 부드러운 바디", tip: "옐로우/레드/블랙으로 구분", color: "bg-yellow-100 border-yellow-300" },
-    { name: "세미 워시드", process: "펄핑 후 점액질 일부 남기고 헹궈 건조", taste: "흙, 약재 향, 묵직함", tip: "인도네시아 수마트라 지역", color: "bg-green-100 border-green-300" },
-  ];
+  const [activeTab, setActiveTab] = useState("processing");
 
-  const roastingLevels = [
-    { level: "라이트", color: "#D4A574", taste: "신맛 강함, 풋내", use: "커핑 평가" },
-    { level: "시나몬", color: "#C4956A", taste: "신맛 두드러짐, 단맛 시작", use: "산뜻한 아메리카노" },
-    { level: "미디엄", color: "#A67B5B", taste: "신맛과 단맛 균형", use: "핸드드립" },
-    { level: "하이", color: "#8B6914", taste: "쓴맛 시작, 풍부한 향", use: "대중적 드립커피" },
-    { level: "시티", color: "#6F4E37", taste: "쓴맛 주도, 캐러멜 향", use: "에스프레소 시작" },
-    { level: "풀 시티", color: "#5D4037", taste: "강한 쓴맛, 스모키", use: "라떼/카푸치노" },
-    { level: "프렌치", color: "#4E342E", taste: "탄 맛, 오일 배출", use: "아이스커피" },
-    { level: "이탈리안", color: "#3E2723", taste: "매우 강한 쓴맛", use: "이탈리아식 에스프레소" },
-  ];
-
-  const extractionVars = [
-    { name: "분쇄도", effect: "굵으면 신맛(언더), 고우면 쓴맛(오버)", tip: "25~30초에 맞게 조절", important: true },
-    { name: "물 온도", effect: "낮으면 언더, 높으면 오버 추출", tip: "90~95°C 유지", important: true },
-    { name: "추출 시간", effect: "짧으면 신맛, 길면 쓴맛", tip: "25~30초 목표", important: false },
-    { name: "도징량", effect: "적으면 압력↓, 많으면 채널링", tip: "바스켓 용량에 맞게", important: false },
-    { name: "탬핑", effect: "불균일하면 채널링 발생", tip: "수평 유지, 일정한 힘", important: true },
-  ];
-
-  const defects = [
-    { name: "블랙 빈", cause: "과발효/곰팡이", effect: "곰팡이 냄새, 썩은 맛", severity: "심각" },
-    { name: "사워 빈", cause: "덜 익은 체리/과발효", effect: "불쾌한 신맛", severity: "높음" },
-    { name: "트라이앵글/쉘", cause: "기형 생두", effect: "불균일한 로스팅", severity: "중간" },
-    { name: "브로큰 빈", cause: "물리적 손상", effect: "과하게 볶아짐", severity: "중간" },
-  ];
-
-  const storage = [
-    { type: "로스팅 원두", method: "밀폐 용기, 실온 보관", period: "2~14일이 최적", warning: "산소, 습기, 열, 빛 차단" },
-    { type: "분쇄 커피", method: "마시기 직전 분쇄 권장", period: "최대한 빨리 소비", warning: "산패 속도 가장 빠름" },
-    { type: "생두", method: "통풍 잘되는 실온", period: "수분 10~12% 유지", warning: "습도 높으면 곰팡이" },
+  const tabs = [
+    { id: "processing", label: "가공 방법", icon: <Bean className="w-4 h-4" /> },
+    { id: "roasting", label: "로스팅", icon: <Flame className="w-4 h-4" /> },
+    { id: "extraction", label: "추출 변수", icon: <Settings className="w-4 h-4" /> },
+    { id: "espresso", label: "에스프레소", icon: <Coffee className="w-4 h-4" /> },
+    { id: "milk", label: "우유 스티밍", icon: <Droplets className="w-4 h-4" /> },
+    { id: "menu", label: "커피 메뉴", icon: <Coffee className="w-4 h-4" /> },
   ];
 
   return (
     <div className="py-12">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
-        <div className="relative rounded-3xl overflow-hidden mb-12">
+        <div className="relative rounded-3xl overflow-hidden mb-8">
           <div className="absolute inset-0 bg-gradient-to-r from-amber-900/90 to-amber-800/70 z-10"></div>
-          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1200&q=80" alt="커피 원두" className="w-full h-64 md:h-80 object-cover" />
+          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1200&q=80" alt="커피 원두" className="w-full h-48 md:h-64 object-cover" />
           <div className="absolute inset-0 z-20 flex flex-col justify-center items-center text-white text-center px-4">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-4">
-              <Bean className="w-5 h-5" />
-              <span className="font-medium">커피 이론</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">커피 지식</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">커피 지식</h1>
             <p className="text-lg opacity-90">바리스타 시험에 나오는 핵심 이론</p>
           </div>
         </div>
 
-        {/* 1. 가공 방법 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
-            <Coffee className="w-6 h-6 text-amber-600" />
-            1. 커피 가공 방법
-            <span className="text-sm font-normal text-amber-600 bg-amber-100 px-2 py-1 rounded-full ml-2">시험 필수!</span>
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            {processMethods.map((method) => (
-              <div key={method.name} className={`${method.color} border-2 rounded-xl p-5`}>
-                <h3 className="font-bold text-gray-900 mb-2">{method.name}</h3>
-                <p className="text-sm text-gray-700 mb-2"><strong>과정:</strong> {method.process}</p>
-                <p className="text-sm text-gray-700 mb-2"><strong>맛:</strong> {method.taste}</p>
-                <p className="text-sm text-amber-700 bg-white/50 px-2 py-1 rounded inline-block">💡 {method.tip}</p>
-              </div>
-            ))}
-          </div>
+        {/* Tabs */}
+        <div className="flex flex-wrap gap-2 mb-8 justify-center">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all ${
+                activeTab === tab.id
+                  ? "bg-amber-700 text-white"
+                  : "bg-amber-100 text-amber-700 hover:bg-amber-200"
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {/* 2. 로스팅 단계 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
-            <Flame className="w-6 h-6 text-amber-600" />
-            2. 로스팅 8단계
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {roastingLevels.map((level) => (
-              <div key={level.level} className="text-center p-4 bg-amber-50 rounded-xl">
-                <div className="w-16 h-16 rounded-full mx-auto mb-3" style={{ backgroundColor: level.color }}></div>
-                <h3 className="font-bold text-amber-900">{level.level}</h3>
-                <p className="text-xs text-gray-600 mt-1">{level.taste}</p>
-                <p className="text-xs text-amber-700 mt-1">{level.use}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 p-4 bg-amber-50 rounded-xl">
-            <p className="text-amber-800 text-sm">⭐ <strong>시험 포인트:</strong> 미디엄(균형), 시티(에스프레소 시작), 풀 시티(라떼/카푸치노)의 용도를 기억하세요!</p>
-          </div>
-        </div>
-
-        {/* 3. 추출 변수 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
-            <Settings className="w-6 h-6 text-amber-600" />
-            3. 추출 변수 5가지
-          </h2>
-          <div className="space-y-4">
-            {extractionVars.map((v) => (
-              <div key={v.name} className={`p-4 rounded-xl ${v.important ? 'bg-red-50 border-2 border-red-200' : 'bg-amber-50'}`}>
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-bold text-amber-900">{v.name}</h3>
-                  {v.important && <span className="text-xs bg-red-200 text-red-800 px-2 py-1 rounded-full">중요!</span>}
-                </div>
-                <p className="text-sm text-gray-700 mb-1"><strong>영향:</strong> {v.effect}</p>
-                <p className="text-sm text-amber-700">💡 {v.tip}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 4. 결점두 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
-            <XCircle className="w-6 h-6 text-red-500" />
-            4. 커피 결점두
-          </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-amber-50">
-                  <th className="text-left p-3 font-bold text-amber-900">결점두</th>
-                  <th className="text-left p-3 font-bold text-amber-900">원인</th>
-                  <th className="text-left p-3 font-bold text-amber-900">맛 영향</th>
-                  <th className="text-center p-3 font-bold text-amber-900">심각도</th>
-                </tr>
-              </thead>
-              <tbody>
-                {defects.map((d, i) => (
-                  <tr key={d.name} className={i % 2 === 0 ? "bg-white" : "bg-amber-50/30"}>
-                    <td className="p-3 font-medium text-amber-800">{d.name}</td>
-                    <td className="p-3 text-gray-600">{d.cause}</td>
-                    <td className="p-3 text-gray-600">{d.effect}</td>
-                    <td className="p-3 text-center">
-                      <span className={`px-2 py-1 rounded-full text-xs font-bold ${d.severity === '심각' ? 'bg-red-200 text-red-800' : d.severity === '높음' ? 'bg-orange-200 text-orange-800' : 'bg-yellow-200 text-yellow-800'}`}>
-                        {d.severity}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="mt-4 p-4 bg-red-50 rounded-xl">
-            <p className="text-red-800 text-sm">⭐ <strong>블랙 빈</strong>이 가장 심각한 결점두! 결점두 개수가 생두 등급(Grade)을 결정합니다.</p>
-          </div>
-        </div>
-
-        {/* 5. 보관 방법 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
-            <Package className="w-6 h-6 text-amber-600" />
-            5. 커피 보관 방법
-          </h2>
-          <div className="grid md:grid-cols-3 gap-4">
-            {storage.map((s) => (
-              <div key={s.type} className="bg-amber-50 rounded-xl p-5">
-                <h3 className="font-bold text-amber-900 mb-3">{s.type}</h3>
-                <p className="text-sm text-gray-700 mb-2">📦 {s.method}</p>
-                <p className="text-sm text-gray-700 mb-2">⏰ {s.period}</p>
-                <p className="text-sm text-red-600">⚠️ {s.warning}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 p-4 bg-amber-50 rounded-xl">
-            <p className="text-amber-800 text-sm">⭐ <strong>산패의 4대 적:</strong> 산소, 습기, 열, 빛 - 분쇄 커피는 산패가 가장 빠릅니다!</p>
-          </div>
-        </div>
-
-        {/* 6. 에스프레소 이론 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
-            <Coffee className="w-6 h-6 text-amber-600" />
-            6. 에스프레소 이론
-            <span className="text-sm font-normal text-red-600 bg-red-100 px-2 py-1 rounded-full ml-2">실기 필수!</span>
-          </h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-amber-50 rounded-xl p-5">
-              <h3 className="font-bold text-amber-900 mb-2">에스프레소 (Espresso)</h3>
-              <p className="text-sm text-gray-700">고압(9bar)으로 25-30초에 추출한 진한 커피. 이탈리아어로 빠른이라는 뜻.</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-5">
-              <h3 className="font-bold text-amber-900 mb-2">크레마 (Crema)</h3>
-              <p className="text-sm text-gray-700">에스프레소 위 황금빛 거품층. 신선한 원두와 올바른 추출의 지표.</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-5">
-              <h3 className="font-bold text-amber-900 mb-2">탬핑 (Tamping)</h3>
-              <p className="text-sm text-gray-700">원두를 탬퍼로 눌러 다지는 과정. 15-20kg 압력으로 수평하게.</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-5">
-              <h3 className="font-bold text-amber-900 mb-2">도징 (Dosing)</h3>
-              <p className="text-sm text-gray-700">포터필터에 원두를 담는 것. 싱글샷 7-9g, 더블샷 14-18g.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* 7. 우유 스티밍 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6 flex items-center gap-2">
-            <Droplets className="w-6 h-6 text-amber-600" />
-            7. 우유 스티밍 5단계
-          </h2>
-          <div className="space-y-4">
-            <div className="flex gap-4 items-start">
-              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
-              <div><strong>차가운 우유 준비</strong> - 피처의 1/3~1/2 채우기</div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div>
-              <div><strong>에어 주입 (스트레칭)</strong> - 치치치 소리와 함께 공기 주입</div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div>
-              <div><strong>회전 (롤링)</strong> - 스팀 완드를 깊이 넣어 우유 회전</div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">4</div>
-              <div><strong>온도 확인</strong> - 60-65°C (손으로 3초 이상 못 잡을 정도)</div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">5</div>
-              <div><strong>마무리</strong> - 탁탁 쳐서 큰 거품 제거, 돌려서 광택 만들기</div>
-            </div>
-          </div>
-        </div>
-
-        {/* 8. 기본 커피 메뉴 */}
-        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8 mb-8">
-          <h2 className="text-2xl font-bold text-amber-900 mb-6">8. 기본 커피 메뉴</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
-              <div className="w-12 h-12 bg-amber-900 rounded-full mx-auto mb-3"></div>
-              <h3 className="font-bold text-amber-900">에스프레소</h3>
-              <p className="text-sm text-gray-600">에스프레소 30ml</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
-              <div className="w-12 h-12 bg-amber-700 rounded-full mx-auto mb-3"></div>
-              <h3 className="font-bold text-amber-900">아메리카노</h3>
-              <p className="text-sm text-gray-600">에스프레소 + 물</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
-              <div className="w-12 h-12 bg-amber-600 rounded-full mx-auto mb-3"></div>
-              <h3 className="font-bold text-amber-900">카푸치노</h3>
-              <p className="text-sm text-gray-600">에스프레소:우유:거품 1:1:1</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
-              <div className="w-12 h-12 bg-amber-500 rounded-full mx-auto mb-3"></div>
-              <h3 className="font-bold text-amber-900">카페라떼</h3>
-              <p className="text-sm text-gray-600">에스프레소:우유 1:3~4</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
-              <div className="w-12 h-12 bg-amber-800 rounded-full mx-auto mb-3"></div>
-              <h3 className="font-bold text-amber-900">카페모카</h3>
-              <p className="text-sm text-gray-600">에스프레소 + 초콜릿 + 우유</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
-              <div className="w-12 h-12 bg-amber-950 rounded-full mx-auto mb-3"></div>
-              <h3 className="font-bold text-amber-900">마키아토</h3>
-              <p className="text-sm text-gray-600">에스프레소 + 소량 우유거품</p>
-            </div>
-          </div>
+        {/* Content */}
+        <div className="bg-white rounded-2xl shadow-md border border-amber-100 p-8">
+          {activeTab === "processing" && <ProcessingContent />}
+          {activeTab === "roasting" && <RoastingContent />}
+          {activeTab === "extraction" && <ExtractionContent />}
+          {activeTab === "espresso" && <EspressoContent />}
+          {activeTab === "milk" && <MilkContent />}
+          {activeTab === "menu" && <MenuContent />}
         </div>
 
         {/* 시험 필수 숫자 */}
-        <div className="bg-amber-900 text-white rounded-2xl p-8">
+        <div className="bg-amber-900 text-white rounded-2xl p-8 mt-8">
           <h2 className="text-2xl font-bold mb-6 text-center">시험에 나오는 숫자들</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
@@ -293,6 +78,179 @@ export default function CoffeeKnowledgePage() {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ProcessingContent() {
+  const methods = [
+    { name: "내추럴 (Natural)", process: "체리를 껍질째 건조 후 탈곡", taste: "농후한 단맛, 와인/과일 향, 무거운 바디", tip: "가장 오래된 방식, 발효취 특징", color: "bg-red-100 border-red-300" },
+    { name: "워시드 (Washed)", process: "과육 제거 후 점액질을 물로 씻어 건조", taste: "깨끗한 산미, 가벼운 바디, 투명한 향미", tip: "가장 보편적인 고급 가공법", color: "bg-blue-100 border-blue-300" },
+    { name: "허니 (Honey)", process: "과육 제거 후 점액질 일부 남긴 채 건조", taste: "산미와 단맛의 균형, 부드러운 바디", tip: "옐로우/레드/블랙으로 구분", color: "bg-yellow-100 border-yellow-300" },
+    { name: "세미 워시드", process: "펄핑 후 점액질 일부 남기고 헹궈 건조", taste: "흙, 약재 향, 묵직함", tip: "인도네시아 수마트라 지역", color: "bg-green-100 border-green-300" },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-amber-900 mb-6">커피 가공 방법</h2>
+      <div className="grid md:grid-cols-2 gap-4">
+        {methods.map((m) => (
+          <div key={m.name} className={`${m.color} border-2 rounded-xl p-5`}>
+            <h3 className="font-bold text-gray-900 mb-2 text-lg">{m.name}</h3>
+            <p className="text-gray-700 mb-2"><strong>과정:</strong> {m.process}</p>
+            <p className="text-gray-700 mb-2"><strong>맛:</strong> {m.taste}</p>
+            <p className="text-amber-700 bg-white/50 px-3 py-1 rounded-lg inline-block">💡 {m.tip}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 p-4 bg-amber-50 rounded-xl">
+        <p className="text-amber-800">⭐ <strong>시험 포인트:</strong> 각 방식의 맛 특징(산미 vs 단맛/바디감)과 과정의 차이(물 사용 유무, 점액질 제거 여부)를 구분하세요!</p>
+      </div>
+    </div>
+  );
+}
+
+function RoastingContent() {
+  const levels = [
+    { level: "라이트", color: "#D4A574", taste: "신맛 강함, 풋내", use: "커핑 평가" },
+    { level: "시나몬", color: "#C4956A", taste: "신맛 두드러짐", use: "산뜻한 아메리카노" },
+    { level: "미디엄", color: "#A67B5B", taste: "신맛과 단맛 균형", use: "핸드드립" },
+    { level: "하이", color: "#8B6914", taste: "쓴맛 시작", use: "대중적 드립커피" },
+    { level: "시티", color: "#6F4E37", taste: "쓴맛 주도, 캐러멜", use: "에스프레소 시작" },
+    { level: "풀 시티", color: "#5D4037", taste: "강한 쓴맛, 스모키", use: "라떼/카푸치노" },
+    { level: "프렌치", color: "#4E342E", taste: "탄 맛, 오일 배출", use: "아이스커피" },
+    { level: "이탈리안", color: "#3E2723", taste: "매우 강한 쓴맛", use: "이탈리아식" },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-amber-900 mb-6">로스팅 8단계</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {levels.map((l) => (
+          <div key={l.level} className="text-center p-4 bg-amber-50 rounded-xl">
+            <div className="w-20 h-20 rounded-full mx-auto mb-3 shadow-lg" style={{ backgroundColor: l.color }}></div>
+            <h3 className="font-bold text-amber-900 text-lg">{l.level}</h3>
+            <p className="text-sm text-gray-600 mt-1">{l.taste}</p>
+            <p className="text-sm text-amber-700 mt-1 font-medium">{l.use}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 p-4 bg-amber-50 rounded-xl">
+        <p className="text-amber-800">⭐ <strong>시험 포인트:</strong> 미디엄(균형), 시티(에스프레소 시작), 풀 시티(라떼/카푸치노)의 용도를 기억하세요!</p>
+      </div>
+    </div>
+  );
+}
+
+function ExtractionContent() {
+  const vars = [
+    { name: "분쇄도", effect: "굵으면 신맛(언더), 고우면 쓴맛(오버)", tip: "25~30초에 맞게 조절", important: true },
+    { name: "물 온도", effect: "낮으면 언더, 높으면 오버 추출", tip: "90~95°C 유지", important: true },
+    { name: "추출 시간", effect: "짧으면 신맛, 길면 쓴맛", tip: "25~30초 목표", important: false },
+    { name: "도징량", effect: "적으면 압력↓, 많으면 채널링", tip: "바스켓 용량에 맞게", important: false },
+    { name: "탬핑", effect: "불균일하면 채널링 발생", tip: "수평 유지, 일정한 힘", important: true },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-amber-900 mb-6">추출 변수 5가지</h2>
+      <div className="space-y-4">
+        {vars.map((v) => (
+          <div key={v.name} className={`p-5 rounded-xl ${v.important ? 'bg-red-50 border-2 border-red-200' : 'bg-amber-50'}`}>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-bold text-amber-900 text-lg">{v.name}</h3>
+              {v.important && <span className="text-xs bg-red-200 text-red-800 px-3 py-1 rounded-full font-bold">중요!</span>}
+            </div>
+            <p className="text-gray-700 mb-2"><strong>영향:</strong> {v.effect}</p>
+            <p className="text-amber-700">💡 {v.tip}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EspressoContent() {
+  const terms = [
+    { term: "에스프레소 (Espresso)", def: "고압(9bar)으로 25-30초에 추출한 진한 커피. 이탈리아어로 '빠른'이라는 뜻.", tip: "추출 시간, 압력, 온도 관련 문제 자주 출제" },
+    { term: "크레마 (Crema)", def: "에스프레소 위에 형성되는 황금빛 거품층. 신선한 원두와 올바른 추출의 지표.", tip: "크레마 색상, 두께로 추출 상태 판단" },
+    { term: "탬핑 (Tamping)", def: "포터필터에 담긴 원두를 탬퍼로 눌러 다지는 과정. 약 15-20kg의 압력으로 수평하게.", tip: "실기시험 핵심! 일정한 압력과 수평 유지" },
+    { term: "도징 (Dosing)", def: "포터필터에 적정량의 원두를 담는 것. 싱글샷 7-9g, 더블샷 14-18g.", tip: "적정 도징량 암기 필요" },
+    { term: "채널링 (Channeling)", def: "물이 커피 베드에 불균일하게 침투하여 특정 부분으로만 흐르는 현상.", tip: "탬핑 불량이 주요 원인" },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-amber-900 mb-6">에스프레소 이론 <span className="text-sm font-normal text-red-600 bg-red-100 px-2 py-1 rounded-full ml-2">실기 필수!</span></h2>
+      <div className="space-y-4">
+        {terms.map((t) => (
+          <div key={t.term} className="bg-amber-50 rounded-xl p-5">
+            <h3 className="font-bold text-amber-900 text-lg mb-2">{t.term}</h3>
+            <p className="text-gray-700 mb-3">{t.def}</p>
+            <p className="text-amber-700 bg-white/50 px-3 py-2 rounded-lg inline-block text-sm">📝 {t.tip}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MilkContent() {
+  const steps = [
+    { step: 1, title: "차가운 우유 준비", desc: "냉장 보관된 차가운 우유를 사용. 피처의 1/3~1/2 정도 채우기." },
+    { step: 2, title: "에어 주입 (스트레칭)", desc: "스팀 완드를 우유 표면 바로 아래에 위치시켜 '치치치' 소리와 함께 공기 주입." },
+    { step: 3, title: "회전 (롤링)", desc: "스팀 완드를 깊이 넣어 우유를 회전시키며 거품을 고르게 섞기." },
+    { step: 4, title: "온도 확인", desc: "60-65°C가 적정 온도. 피처 바닥이 손으로 3초 이상 못 잡을 정도면 완료." },
+    { step: 5, title: "마무리", desc: "피처를 탁탁 쳐서 큰 거품을 제거하고, 돌려서 광택 있는 우유 만들기." },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-amber-900 mb-6">우유 스티밍 5단계</h2>
+      <div className="space-y-4">
+        {steps.map((s) => (
+          <div key={s.step} className="flex gap-4 items-start bg-amber-50 rounded-xl p-4">
+            <div className="bg-amber-700 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
+              {s.step}
+            </div>
+            <div>
+              <h3 className="font-bold text-amber-900 text-lg">{s.title}</h3>
+              <p className="text-gray-700">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
+        <p className="text-blue-800">💡 <strong>라떼아트 팁:</strong> 좋은 스팀밀크가 라떼아트의 시작! 광택 있는 마이크로폼을 만드는 것이 핵심입니다.</p>
+      </div>
+    </div>
+  );
+}
+
+function MenuContent() {
+  const menus = [
+    { name: "에스프레소", recipe: "에스프레소 30ml", color: "bg-amber-900" },
+    { name: "아메리카노", recipe: "에스프레소 + 물", color: "bg-amber-700" },
+    { name: "카푸치노", recipe: "에스프레소:우유:거품 = 1:1:1", color: "bg-amber-600" },
+    { name: "카페라떼", recipe: "에스프레소:우유 = 1:3~4", color: "bg-amber-500" },
+    { name: "카페모카", recipe: "에스프레소 + 초콜릿 + 스팀밀크", color: "bg-amber-800" },
+    { name: "마키아토", recipe: "에스프레소 + 소량의 우유거품", color: "bg-amber-950" },
+    { name: "플랫화이트", recipe: "에스프레소 + 얇은 스팀밀크", color: "bg-amber-600" },
+    { name: "콘파나", recipe: "에스프레소 + 휘핑크림", color: "bg-amber-700" },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold text-amber-900 mb-6">기본 커피 메뉴</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {menus.map((m) => (
+          <div key={m.name} className="bg-amber-50 rounded-xl p-5 text-center">
+            <div className={`w-16 h-16 ${m.color} rounded-full mx-auto mb-3 shadow-lg`}></div>
+            <h3 className="font-bold text-amber-900">{m.name}</h3>
+            <p className="text-sm text-gray-600 mt-1">{m.recipe}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
