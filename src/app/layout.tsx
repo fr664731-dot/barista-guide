@@ -19,6 +19,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-819HLNPQM0"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-819HLNPQM0');
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>
